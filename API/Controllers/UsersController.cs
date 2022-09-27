@@ -26,9 +26,6 @@ namespace API.Controllers
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers(){
-            // if(_context.Users is not null)
-            //     return await _context.Users.ToListAsync();
-            // return new List<AppUser>();
             return _context.Users is not null ? 
                 await _context.Users.ToListAsync(): 
                 new List<AppUser>();
@@ -36,27 +33,21 @@ namespace API.Controllers
 
         [HttpGet("{id}")]
         public async Task<ActionResult<AppUser>> GetUser(int id){
-            // if(_context.Users is not null){
-            //     var user = _context.Users.Find(id);
-            //     if(user is not null)
-            //         return user;
-            // }                
-            // return new AppUser();
             return _context.Users is not null ? 
                 await _context.Users.FindAsync(id) : 
                 new AppUser();
         }
 
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        // public IActionResult Index()
+        // {
+        //     return View();
+        // }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View("Error!");
-        }
+        // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        // public IActionResult Error()
+        // {
+        //     return View("Error!");
+        // }
     }
 }
