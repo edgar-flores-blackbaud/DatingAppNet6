@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using API.Data;
 using API.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class UsersController : Controller
+    public class UsersController : BaseApiController
     {
         private readonly ILogger<UsersController> _logger;
         private readonly DataContext _context;
@@ -25,29 +18,19 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers(){
             return _context.Users is not null ? 
                 await _context.Users.ToListAsync(): 
                 new List<AppUser>();
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<AppUser>> GetUser(int id){
             return _context.Users is not null ? 
                 await _context.Users.FindAsync(id) : 
                 new AppUser();
         }
-
-
-        // public IActionResult Index()
-        // {
-        //     return View();
-        // }
-
-        // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        // public IActionResult Error()
-        // {
-        //     return View("Error!");
-        // }
     }
 }
