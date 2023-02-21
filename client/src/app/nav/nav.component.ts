@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ReplaySubject } from 'rxjs/internal/ReplaySubject';
-import { User } from '../models/user';
+import { Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
 
 @Component({
@@ -10,25 +9,22 @@ import { AccountService } from '../services/account.service';
 })
 export class NavComponent implements OnInit {
   model: any = {};
-  constructor(public accountService: AccountService) { }
+  constructor(public accountService: AccountService, 
+    private router: Router) { }
 
   ngOnInit(): void {
   }
 
   login(){
-    console.log(this.model);
     this.accountService.login(this.model)
     .subscribe({
-      next: (response) => {
-        console.log(response);
-      },
-      error: (error) => {
-        console.log(error.message);
-      }
+      next: () => this.router.navigateByUrl('/members'),
+      error: (error) => console.log(error.message)
     });
   }
 
   logout(){
     this.accountService.logout();
+    this.router.navigateByUrl('/');
   }
 }

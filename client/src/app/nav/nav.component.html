@@ -1,16 +1,16 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand" href="#">Datting application</a>
+      <a class="navbar-brand" routerLink="/" routerLinkActive="active">Datting application</a>
       <div class="collapse navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="accountService.currentUser$ | async">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">Matches</a>
+            <a class="nav-link" routerLink="/members" routerLinkActive="active">Matches</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Lists</a>
+            <a class="nav-link" routerLink="/lists" routerLinkActive="active">Lists</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" aria-disabled="true">Messages</a>
+            <a class="nav-link" routerLink="/messages" routerLinkActive="active">Messages</a>
           </li>
         </ul>
         <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
@@ -24,7 +24,7 @@
             </li>
             <li class="nav-item">
               <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
-                <a class="dropdown-toggle text-light" dropdownToggle>
+                <a class="dropdown-toggle text-light text-decoration-none" dropdownToggle>
                   Welcome user
                 </a>
                 <div class="dropdown-menu mt-3" *dropdownMenu="">

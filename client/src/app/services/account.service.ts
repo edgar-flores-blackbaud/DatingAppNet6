@@ -11,7 +11,7 @@ export class AccountService {
   currentUser$ = new ReplaySubject<User|null>(1);
 
   constructor(private http: HttpClient) { }
-  login(model: any){
+  login(model: User){
     return this.http.post<User>(this.baseUrl + 'account/login', model)
     .pipe(map((response: User) => {
       const user = response;
@@ -22,10 +22,10 @@ export class AccountService {
     }));
   }
 
-  register(model: any){
+  register(model: User){
     return this.http
     .post<User>(this.baseUrl + 'account/register', model)
-    .pipe(map(user => {
+    .pipe(map((user: User) => {
       if(user){
         localStorage.setItem('user', JSON.stringify(user));
         this.currentUser$.next(user);
