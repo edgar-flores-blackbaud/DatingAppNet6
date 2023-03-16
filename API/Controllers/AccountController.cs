@@ -12,7 +12,6 @@ namespace API.Controllers
     public class AccountController : BaseApiController
     {
         private readonly ILogger<AccountController> _logger;
-
         private readonly DataContext _context;
         private readonly ITokenService _tokenService;
 
