@@ -16,7 +16,8 @@ namespace API.Data
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options) =>
-        options.UseSqlServer(_configuration.GetConnectionString("WebApiDatabase"));
+            options.UseSqlServer(_configuration.GetConnectionString("WebApiDatabase"), 
+            sqlServer => sqlServer.UseDateOnlyTimeOnly());
 
         public DbSet<AppUser>? Users { get; set; }
     }

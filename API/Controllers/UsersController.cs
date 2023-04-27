@@ -1,36 +1,46 @@
-using Microsoft.AspNetCore.Mvc;
 using API.Data;
+using API.DTOs;
 using API.Entities;
-using Microsoft.EntityFrameworkCore;
+using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class UsersController : BaseApiController
     {
-        private readonly ILogger<UsersController> _logger;
-        private readonly DataContext _context;
-
-        public UsersController(ILogger<UsersController> logger, DataContext context)
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
+        public UsersController(IUserRepository userRepository, IMapper mapper)
         {
-            _logger = logger;
-            _context = context;
+            _mapper = mapper;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers(){
-            return _context.Users is not null ? 
-                await _context.Users.ToListAsync(): 
-                new List<AppUser>();
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+        {
+            IEnumerable<MemberDto> allUsers
+                = await _userRepository.GetMembersAsync();
+            return Ok(allUsers);
         }
 
-        [Authorize]
         [HttpGet("{id}")]
-        public async Task<ActionResult<AppUser>> GetUser(int id){
-            return _context.Users is not null ? 
-                await _context.Users.FindAsync(id) : 
-                new AppUser();
+        public async Task<ActionResult<AppUser>> GetUserById(int id)
+        {
+            AppUser user = await _userRepository.GetUserByIdAsync(id);
+            MemberDto mappedUser = _mapper.Map<MemberDto>(user);
+            return Ok(mappedUser);
+        }
+
+        [HttpGet("{username}")]
+        public async Task<ActionResult<MemberDto>> GetUserByUserName(string username)
+        {
+            return await _userRepository
+                .GetMemberByMemberNameAsync(username);
         }
     }
 }
