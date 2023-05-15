@@ -28,7 +28,7 @@ namespace API.Controllers
             return Ok(allUsers);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<AppUser>> GetUserById(int id)
         {
             AppUser user = await _userRepository.GetUserByIdAsync(id);
@@ -36,7 +36,7 @@ namespace API.Controllers
             return Ok(mappedUser);
         }
 
-        [HttpGet("{username}")]
+        [HttpGet("{username:alpha}")]
         public async Task<ActionResult<MemberDto>> GetUserByUserName(string username)
         {
             return await _userRepository
