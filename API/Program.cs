@@ -1,10 +1,5 @@
-using System.Runtime.InteropServices;
 using API.Data;
 using API.Extensions;
-using API.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using API.Middleware;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,10 +7,12 @@ string specificAllowedOrigins = "_specificAllowedOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 // CORS policy.
-builder.Services.AddCors(options => {
+builder.Services.AddCors(options =>
+{
     options.AddPolicy(
-        name: specificAllowedOrigins, 
-        policy => {
+        name: specificAllowedOrigins,
+        policy =>
+        {
             policy
             .WithOrigins("https://localhost:4200")
             .AllowAnyHeader()
@@ -26,7 +23,7 @@ builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddApplicationServices();
+builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();

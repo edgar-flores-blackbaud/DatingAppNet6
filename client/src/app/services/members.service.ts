@@ -43,4 +43,13 @@ export class MembersService {
         };
       }));
   }
+
+  setMainPhoto(photoId: number) {
+    return this.http
+      .put(this.baserUrl + 'users/set-main-photo/' + photoId, {});
+  }
+
+  deletePhoto(photoId: number) {
+    return this.http.delete(this.baserUrl + 'users/delete-photo/' + photoId);
+  }
 }
